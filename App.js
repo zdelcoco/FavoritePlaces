@@ -7,10 +7,38 @@ import AddPlace from './screens/AddPlace';
 import Map from './screens/Map';
 import IconButton from './components/UI/IconButton';
 import { Colors } from './constants/colors';
+import { useEffect, useState, useCallback } from 'react';
+import { init } from './util/database';
+import * as SplashScreen from 'expo-splash-screen';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [dbInit, setDbInit] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await init();
+        // Artificially delay for two seconds to simulate a slow loading experience
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (err) {
+        console.error('Failed to initialize the database:', err);
+      } finally {
+        setDbInit(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  if (dbInit) {
+    SplashScreen.hideAsync();
+  }
+
   return (
     <>
       <StatusBar style='dark' />
