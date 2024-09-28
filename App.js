@@ -10,6 +10,7 @@ import { Colors } from './constants/colors';
 import { useEffect, useState, useCallback } from 'react';
 import { init } from './util/database';
 import * as SplashScreen from 'expo-splash-screen';
+import PlaceDetail from './screens/PlaceDetail';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -73,6 +74,11 @@ export default function App() {
             options={{ title: 'Add a new Place', headerBackTitle: 'Back' }}
           />
           <Stack.Screen name='Map' component={Map} />
+          <Stack.Screen
+            name='PlaceDetail'
+            component={PlaceDetail}
+            options={{ title: 'Place Details', headerBackTitle: 'Back' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
